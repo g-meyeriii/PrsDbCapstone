@@ -12,7 +12,7 @@ namespace PrsDb.Data
         public PrsDbContext (DbContextOptions<PrsDbContext> options)
             : base(options)
         {
-        }
+        } 
         
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
