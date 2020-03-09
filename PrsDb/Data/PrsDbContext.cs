@@ -7,17 +7,20 @@ using PrsDb.Models;
 
 namespace PrsDb.Data
 {
-    public class PrsDbContext : DbContext
-    {
-        public PrsDbContext (DbContextOptions<PrsDbContext> options)
-            : base(options)
-        {
-        } 
-        
+    public class PrsDbContext : DbContext {
+        public PrsDbContext(DbContextOptions<PrsDbContext> options)
+            : base(options) {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestLine> RequestLines { get; set; }
 
-        protected override void OnModelCreating (ModelBuilder model) {
+        
+
+        protected override void OnModelCreating(ModelBuilder model) {
             model.Entity<User>(u => {
                 u.ToTable("Users");
                 u.HasKey(u => u.Id);
@@ -48,12 +51,24 @@ namespace PrsDb.Data
                 p.ToTable("Product");
                 p.HasKey(p => p.Id);
                 p.Property(p => p.PartNbr).HasMaxLength(30).IsRequired();
+                p.HasIndex(p => p.PartNbr).IsUnique();
                 p.Property(p => p.Name).HasMaxLength(30).IsRequired();
-                p.Property(p => p.Price).HasMaxLength(13);
+                p.Property(p => p.Price).HasMaxLength(13).HasColumnType("decimal(11, 2)");
                 p.Property(p => p.Unit).HasMaxLength(30).IsRequired();
                 p.Property(p => p.PhotoPath).HasMaxLength(255);
-                          
+
             });
+            model.Entity<Request>(r => {
+                r.ToTable("Request");
+                r.HasKey(r => r.Id);
+                r.Property(r => r.Description).HasMaxLength(80).IsRequired();
+                r.Property(r => r.Justification).HasMaxLength(80).IsRequired();
+                r.Property(r => r.RejectionReason).HasMaxLength(80);
+                r.Property(r => r.DeliveryMode).HasMaxLength(20).HasDefaultValue("Pickup").IsRequired();
+                r.Property(r => r.Status).HasDefaultValue("NEW").IsRequired();
+                r.Property(r => r.Total).HasMaxLength(13).HasColumnType("decimal(11,2");
+            });
+    
             model.Entity<RequestLine>(rl => {
                 rl.ToTable("RequestLine");
                 rl.HasKey(rl => rl.Id);
@@ -61,9 +76,7 @@ namespace PrsDb.Data
             });
         }
 
-        public DbSet<PrsDb.Models.Product> Product { get; set; }
-
-        public DbSet<PrsDb.Models.RequestLine> RequestLine { get; set; }
+        
 
 
         
