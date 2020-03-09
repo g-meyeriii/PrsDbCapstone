@@ -26,7 +26,7 @@ namespace PrsDb.Data
                 u.Property(u => u.Password).HasMaxLength(30).IsRequired();
                 u.Property(u => u.FirstName).HasMaxLength(30).IsRequired();
                 u.Property(u => u.LastName).HasMaxLength(30).IsRequired();
-                u.Property(u => u.Phone).HasMaxLength(13);
+                u.Property(u => u.Phone).HasMaxLength(12);
                 u.Property(u => u.Email).HasMaxLength(255);
                 u.Property(u => u.IsReviewer).IsRequired().HasDefaultValue(false);
                 u.Property(u => u.IsAdmin).IsRequired().HasDefaultValue(false);
@@ -41,7 +41,7 @@ namespace PrsDb.Data
                 v.Property(v => v.City).HasMaxLength(30).IsRequired();
                 v.Property(v => v.State).HasMaxLength(2).IsRequired();
                 v.Property(v => v.Zip).HasMaxLength(5).IsRequired();
-                v.Property(v => v.Phone).HasMaxLength(13);
+                v.Property(v => v.Phone).HasMaxLength(12);
                 v.Property(v => v.Email).HasMaxLength(255);
             });
             model.Entity<Product>(p => {
@@ -60,6 +60,10 @@ namespace PrsDb.Data
                 rl.Property(rl => rl.Quantity).HasDefaultValue(1);
             });
         }
+
+        public DbSet<PrsDb.Models.Product> Product { get; set; }
+
+        public DbSet<PrsDb.Models.RequestLine> RequestLine { get; set; }
 
 
         

@@ -12,48 +12,48 @@ namespace PrsDb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VendorsController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly PrsDbContext _context;
 
-        public VendorsController(PrsDbContext context)
+        public ProductsController(PrsDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Vendors
+        // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vendor>>> GetVendor()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
-            return await _context.Vendors.ToListAsync();
+            return await _context.Product.ToListAsync();
         }
 
-        // GET: api/Vendors/5
+        // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vendor>> GetVendor(int id)
+        public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
+            var product = await _context.Product.FindAsync(id);
 
-            if (vendor == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return vendor;
+            return product;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/Products/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVendor(int id, Vendor vendor)
+        public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != vendor.Id)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendor).State = EntityState.Modified;
+            _context.Entry(product).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace PrsDb.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorExists(id))
+                if (!ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace PrsDb.Controllers
             return NoContent();
         }
 
-        // POST: api/Vendors
+        // POST: api/Products
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Vendor>> PostVendor(Vendor vendor)
+        public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Vendors.Add(vendor);
+            _context.Product.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendor", new { id = vendor.Id }, vendor);
+            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
-        // DELETE: api/Vendors/5
+        // DELETE: api/Products/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Vendor>> DeleteVendor(int id)
+        public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
-            if (vendor == null)
+            var product = await _context.Product.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendor);
+            _context.Product.Remove(product);
             await _context.SaveChangesAsync();
 
-            return vendor;
+            return product;
         }
 
-        private bool VendorExists(int id)
+        private bool ProductExists(int id)
         {
-            return _context.Vendors.Any(e => e.Id == id);
+            return _context.Product.Any(e => e.Id == id);
         }
     }
 }
