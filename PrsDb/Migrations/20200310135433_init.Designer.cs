@@ -9,8 +9,8 @@ using PrsDb.Data;
 namespace PrsDb.Migrations
 {
     [DbContext(typeof(PrsDbContext))]
-    [Migration("20200309194744_correctedcolums")]
-    partial class correctedcolums
+    [Migration("20200310135433_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,7 +98,7 @@ namespace PrsDb.Migrations
                         .HasDefaultValue("NEW");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(11,2")
+                        .HasColumnType("decimal(11,2)")
                         .HasMaxLength(13);
 
                     b.Property<int>("UserId")

@@ -27,29 +27,33 @@ namespace PrsDb.Controllers
         public const string StatusApproved = "APPROVED";
         public const string StatusRejected = "REJECTED";
 
+        public Request Request { get; set; }
         public Request Id { get; private set; }
 
         public IEnumerable<Request> GetRequestsToReviewNotOwned(int userId) {
             return _context.Requests.Where(r => r.UserId != userId && r.Status == StatusReview).ToList();
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsToReviewNotOwned (int userId) {
+        [HttpPut]
+        public bool SetToReview(Request request) {
             if (request.Total <= 50)
                 request.Status = StatusApproved;
             else {
                 request.Status = StatusReview;
             }
-            return PutRequest(Id, Request request);
+            return true;
         }
+        
+        [HttpPut]
         public bool SetToApproved(Request request) {
             request.Status = StatusApproved;
-            return PutRequest(Id, Request request);
+            return true;
         }
+        [HttpPut]
         public bool SetToRejected(Request request) {
             request.Status = StatusRejected;
-            return PutRequest(Id, Request request);
+            return true;
         }
-
+       
         // GET: api/Requests
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequest()

@@ -15,7 +15,6 @@ namespace PrsDb.Controllers
     public class UsersController : ControllerBase
     {
         private readonly PrsDbContext _context;
-        private object context;
 
         public UsersController(PrsDbContext context)
         {
@@ -108,8 +107,9 @@ namespace PrsDb.Controllers
             return _context.Users.Any(e => e.Id == id);
 
         }
+        [HttpGet("login/{username}/{password}")]
         public User Login(string username, string password) {
-            return _context.Users.SingleOrDefault(u => u.Username == username && u.Password == password);
+            return _context.Users.SingleOrDefault(u => u.UserName == username && u.Password == password);
         }
 
     }

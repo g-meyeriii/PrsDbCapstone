@@ -66,7 +66,7 @@ namespace PrsDb.Data
                 r.Property(r => r.RejectionReason).HasMaxLength(80);
                 r.Property(r => r.DeliveryMode).HasMaxLength(20).HasDefaultValue("Pickup").IsRequired();
                 r.Property(r => r.Status).HasDefaultValue("NEW").IsRequired();
-                r.Property(r => r.Total).HasMaxLength(13).HasColumnType("decimal(11,2");
+                r.Property(r => r.Total).HasMaxLength(13).HasColumnType("decimal(11,2)");
             });
     
             model.Entity<RequestLine>(rl => {

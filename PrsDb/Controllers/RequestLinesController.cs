@@ -12,13 +12,18 @@ namespace PrsDb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RequestLinesController : ControllerBase
-    {
+    public class RequestLinesController : ControllerBase{
         private readonly PrsDbContext _context;
 
-        public RequestLinesController(PrsDbContext context)
-        {
+        public RequestLinesController(PrsDbContext context){
             _context = context;
+        }
+
+        private void RecalcRequestTotal(int requestId) {
+            var request = _context.Requests.Find(requestId);
+            request.RequestLines.Sum(x => x.Quantity * x.Product.Price);
+
+            _context.SaveChangesAsync();
         }
 
         // GET: api/RequestLines

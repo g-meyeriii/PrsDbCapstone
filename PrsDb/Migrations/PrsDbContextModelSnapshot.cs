@@ -96,7 +96,7 @@ namespace PrsDb.Migrations
                         .HasDefaultValue("NEW");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(11,2")
+                        .HasColumnType("decimal(11,2)")
                         .HasMaxLength(13);
 
                     b.Property<int>("UserId")
