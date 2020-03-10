@@ -30,28 +30,28 @@ namespace PrsDb.Controllers
         public Request Request { get; set; }
         public Request Id { get; private set; }
 
+        [HttpGet("getrequeststoreview/{userId}")]
         public IEnumerable<Request> GetRequestsToReviewNotOwned(int userId) {
             return _context.Requests.Where(r => r.UserId != userId && r.Status == StatusReview).ToList();
         }
-        [HttpPut]
-        public bool SetToReview(Request request) {
+        [HttpPut("settoreview")]
+        public Task<IActionResult> SetToReview(Request request) {
             if (request.Total <= 50)
                 request.Status = StatusApproved;
             else {
                 request.Status = StatusReview;
             }
-            return true;
+            return PutRequest(request.Id, request);
         }
-        
-        [HttpPut]
-        public bool SetToApproved(Request request) {
+        [HttpPut("settoapproved")]
+        public Task<IActionResult> SetToApproved(Request request) {
             request.Status = StatusApproved;
-            return true;
+            return PutRequest(request.Id, request);
         }
-        [HttpPut]
-        public bool SetToRejected(Request request) {
+        [HttpPut("settorejected")]
+        public Task<IActionResult> SetToRejected(Request request) {
             request.Status = StatusRejected;
-            return true;
+            return PutRequest(request.Id, request);
         }
        
         // GET: api/Requests
@@ -103,6 +103,9 @@ namespace PrsDb.Controllers
                 {
                     throw;
                 }
+            }
+            catch (Exception e) {
+                throw;
             }
 
             return NoContent();
