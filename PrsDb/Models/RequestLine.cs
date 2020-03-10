@@ -19,7 +19,8 @@ namespace PrsDb.Models {
         [JsonIgnore]
         public virtual Request Request { get; set; }
         public virtual Product Product { get; set; }
-        RequestLine() { }
+        
+        public RequestLine() { }
 
     }
 }

@@ -19,6 +19,7 @@ namespace PrsDb.Models {
         public string Email { get; set; }
         public bool IsReviewer { get; set; }
         public bool IsAdmin { get; set; }
+        public string Username { get; internal set; }
 
         public User() { }
     }
