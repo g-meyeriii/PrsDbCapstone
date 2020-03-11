@@ -18,12 +18,15 @@ namespace PrsDb.Controllers
         public RequestLinesController(PrsDbContext context){
             _context = context;
         }
-
         private void RecalcRequestTotal(int requestId) {
             var request = _context.Requests.Find(requestId);
-            request.RequestLines.Sum(x => x.Quantity * x.Product.Price);
-
+            request.Total = _context.RequestLines
+            .Include(l => l.Product)
+            .Where(l => l.RequestId == requestId)
+            .Sum(l => l.Quantity * l.Product.Price);
+           
             _context.SaveChangesAsync();
+          
         }
 
         // GET: api/RequestLines
@@ -60,18 +63,16 @@ namespace PrsDb.Controllers
 
             _context.Entry(requestLine).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
+                
+                RecalcRequestTotal(requestLine.RequestId);
+
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RequestLineExists(id))
-                {
+            catch (DbUpdateConcurrencyException) {
+                if (!RequestLineExists(id)) {
                     return NotFound();
-                }
-                else
-                {
+                } else {
                     throw;
                 }
             }
@@ -87,7 +88,7 @@ namespace PrsDb.Controllers
         {
             _context.RequestLines.Add(requestLine);
             await _context.SaveChangesAsync();
-
+            RecalcRequestTotal (requestLine.RequestId);
             return CreatedAtAction("GetRequestLine", new { id = requestLine.Id }, requestLine);
         }
 
@@ -103,7 +104,7 @@ namespace PrsDb.Controllers
 
             _context.RequestLines.Remove(requestLine);
             await _context.SaveChangesAsync();
-
+            RecalcRequestTotal(requestLine.RequestId);
             return requestLine;
         }
 
