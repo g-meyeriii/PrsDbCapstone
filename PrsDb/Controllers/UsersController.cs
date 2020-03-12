@@ -110,7 +110,12 @@ namespace PrsDb.Controllers
         [HttpGet("login/{username}/{password}")]
         public User Login(string username, string password) {
             return _context.Users.SingleOrDefault(u => u.UserName == username && u.Password == password);
+
         }
+        //[HttpGet]("login reset/{email}/{phone}")]
+        //public User LoginReset(string email, string password) {
+        //    return _context.Users.SingleOrDefault(u => u.UserName && u.Password);
+        //}
 
     }
 }
