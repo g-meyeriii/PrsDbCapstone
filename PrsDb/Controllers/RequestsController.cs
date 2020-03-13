@@ -25,7 +25,7 @@ namespace PrsDb.Controllers
         public const string StatusEdit = "EDIT";
         public const string StatusReview = "REVIEW";
         public const string StatusApproved = "APPROVED";
-        public const string StatusRejected = "REJECTED";
+        public const string StatusRejected = "REJECTED"; 
 
         public Request Request { get; set; }
         public Request Id { get; private set; }
