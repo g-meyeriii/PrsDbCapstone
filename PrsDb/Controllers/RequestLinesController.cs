@@ -18,14 +18,14 @@ namespace PrsDb.Controllers
         public RequestLinesController(PrsDbContext context){
             _context = context;
         }
-        private void RecalcRequestTotal(int requestId) {
-            var request = _context.Requests.Find(requestId);
+        private async Task RecalcRequestTotal(int requestId) {
+            var request = await _context.Requests.FindAsync(requestId);
             request.Total = _context.RequestLines
             .Include(l => l.Product)
             .Where(l => l.RequestId == requestId)
             .Sum(l => l.Quantity * l.Product.Price);
            
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
           
         }
 

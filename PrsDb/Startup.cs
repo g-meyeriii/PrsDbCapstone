@@ -36,7 +36,7 @@ namespace PrsDb {
                 });
               services.AddCors(option => 
                      option.AddPolicy(DefaultCorsPolicy, x =>
-                     x.WithOrigins(AllowOrigins).WithMethods(AllowMethods).AllowAnyMethod()
+                     x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
                       )
         
               );
