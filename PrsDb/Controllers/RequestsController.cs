@@ -27,31 +27,30 @@ namespace PrsDb.Controllers
         public const string StatusApproved = "APPROVED";
         public const string StatusRejected = "REJECTED"; 
 
-        public Request Request { get; set; }
-        public Request Id { get; private set; }
+   
 
         [HttpGet("getrequeststoreview/{userId}")]
-        public IEnumerable<Request> GetRequestsToReviewNotOwned(int userId) {
+        public  IEnumerable<Request> GetRequestsToReviewNotOwned(int userId) {
             return _context.Requests.Where(r => r.UserId != userId && r.Status == StatusReview).ToList();
         }
         [HttpPut("settoreview")]
-        public Task<IActionResult> SetToReview(Request request) {
+        public async Task<IActionResult> SetToReview(Request request) {
             if (request.Total <= 50)
                 request.Status = StatusApproved;
             else {
                 request.Status = StatusReview;
             }
-            return PutRequest(request.Id, request);
+             return await PutRequest(request.Id, request);
         }
         [HttpPut("settoapproved")]
-        public Task<IActionResult> SetToApproved(Request request) {
+        public async Task<IActionResult> SetToApproved(Request request) {
             request.Status = StatusApproved;
-            return PutRequest(request.Id, request);
+            return await PutRequest(request.Id, request);
         }
         [HttpPut("settorejected")]
-        public Task<IActionResult> SetToRejected(Request request) {
+        public async Task<IActionResult> SetToRejected(Request request) {
             request.Status = StatusRejected;
-            return PutRequest(request.Id, request);
+            return await PutRequest(request.Id, request);
         }
        
         // GET: api/Requests
